@@ -1,5 +1,7 @@
 #include <Windows.h>
-#include <Xinput.h>
+
+struct XINPUT_STATE;
+struct XINPUT_VIBRATION;
 
 namespace {
 HMODULE system_xinput() {
