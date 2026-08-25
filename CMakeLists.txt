@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(s2k_TweaksCore SHARED
     src/dllmain.cpp
+    src/cheat_state.cpp
     src/console_unlock.cpp
     src/addon_ui.cpp
     src/log.cpp

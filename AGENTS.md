@@ -106,6 +106,17 @@ Required safeguards:
 10. Do not add `god`/`noclip` function-pointer replacement without a separate explicit request
     and new safety analysis.
 
+The explicitly approved Noclip implementation hooks only the uniquely validated retail
+Noclip callback. Runtime types `1` (Revelations) and `2` (base campaign) are temporarily
+adapted to the retail-supported type `7` for the duration of the original callback, then
+restored. The Debug menu may observe and log the runtime type plus module-relative vtable
+addresses without enabling that adaptation. Preserve this separation when extending it.
+
+The verified `Noclip` command record is identified by its unique name and full description.
+Its callback may change only between the uniquely scanned retail and debug noclip functions.
+The `god` command record must remain untouched. `g_permaGodMode` is identified by its unique
+CVAR name and validated embedded record layout; accept only boolean values `0` and `1`.
+
 Finding a CVAR or command does not prove that its retail implementation works. Do not claim
 functionality until it has been tested in the user's runtime.
 
@@ -141,6 +152,7 @@ Keep responsibilities separated:
 - `plugin_manager.*` and `plugin_api.h`: validated shadow loading and the C ABI boundary.
 - `plugin/s2k_tweaks_plugin.cpp`: reloadable menu composition and high-level tweak controls.
 - `console_unlock.*`: signature scan and reversible console restriction patch.
+- `cheat_state.*`: validated CVAR records and reversible command callback repair.
 - `notification_state.*`: short generic notifications only.
 - `log.*`: thread-safe file logging.
 

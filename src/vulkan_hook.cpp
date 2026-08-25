@@ -5,6 +5,7 @@
 #include "notification_state.h"
 #include "console_unlock.h"
 #include "addon_ui.h"
+#include "cheat_state.h"
 #include "plugin_manager.h"
 
 #include <Windows.h>
@@ -303,6 +304,7 @@ VkResult VKAPI_PTR hooked_queue_present(VkQueue queue, const VkPresentInfoKHR* p
     }
     if (count == 1) {
         dda::load_addon_preferences();
+        dda::initialize_cheat_state();
         const auto result = dda::unlock_console_commands();
         bool success = result != dda::ConsoleUnlockResult::failed;
         const bool preferred_unlocked = dda::addon_console_unlock_preference();
@@ -312,6 +314,31 @@ VkResult VKAPI_PTR hooked_queue_present(VkQueue queue, const VkPresentInfoKHR* p
             success, preferred_unlocked,
             result == dda::ConsoleUnlockResult::already_unlocked,
             dda::addon_notification_duration_seconds());
+        const bool preferred_god_mode = dda::addon_god_mode_preference();
+        if (dda::god_mode_available()) {
+            if (!dda::set_god_mode_enabled(preferred_god_mode))
+                dda::log("Saved god mode state could not be applied");
+            else if (preferred_god_mode)
+                dda::notification_state().show(
+                    "GOD MODE ENABLED", dda::NotificationKind::success,
+                    dda::addon_notification_duration_seconds());
+        } else if (preferred_god_mode) {
+            dda::notification_state().show(
+                "GOD MODE MAPPING FAILED", dda::NotificationKind::error,
+                dda::addon_notification_duration_seconds());
+        }
+        const bool preferred_noclip_command = dda::addon_noclip_command_preference();
+        dda::set_noclip_runtime_logging_enabled(
+            dda::addon_noclip_runtime_logging_preference());
+        if (dda::noclip_command_available()) {
+            if (!dda::set_noclip_command_enabled(preferred_noclip_command))
+                dda::log("Saved noclip command state could not be applied");
+            else if (preferred_noclip_command)
+                dda::notification_state().show(
+                    "NOCLIP COMMAND ENABLED", dda::NotificationKind::success,
+                    dda::addon_notification_duration_seconds());
+        } else if (preferred_noclip_command)
+            dda::log("Saved noclip command state is unavailable for this executable");
     }
     if (count == 1) dda::log("Vulkan presentation hook active");
     if (count == 1) {

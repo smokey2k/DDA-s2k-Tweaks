@@ -1,6 +1,7 @@
 #include "plugin_manager.h"
 
 #include "addon_ui.h"
+#include "cheat_state.h"
 #include "console_unlock.h"
 #include "log.h"
 #include "notification_state.h"
@@ -88,6 +89,16 @@ void host_show_notification(const char* message, S2kNotificationKind kind) {
 bool host_console_available() { return dda::console_unlock_available(); }
 bool host_console_unlocked() { return dda::console_commands_unlocked(); }
 bool host_set_console_unlocked(bool enabled) { return dda::set_addon_console_unlocked(enabled); }
+bool host_god_mode_available() { return dda::god_mode_available(); }
+bool host_god_mode_enabled() { return dda::god_mode_enabled(); }
+bool host_set_god_mode_enabled(bool enabled) { return dda::set_addon_god_mode(enabled); }
+bool host_noclip_command_available() { return dda::noclip_command_available(); }
+bool host_noclip_command_enabled() { return dda::noclip_command_enabled(); }
+bool host_set_noclip_command_enabled(bool enabled) { return dda::set_addon_noclip_command(enabled); }
+bool host_noclip_runtime_logging_enabled() { return dda::noclip_runtime_logging_enabled(); }
+void host_set_noclip_runtime_logging_enabled(bool enabled) {
+    dda::set_addon_noclip_runtime_logging(enabled);
+}
 void host_request_reload() { dda::request_plugin_reload(); }
 
 const S2kHostApi g_host_api{
@@ -121,6 +132,14 @@ const S2kHostApi g_host_api{
     host_console_available,
     host_console_unlocked,
     host_set_console_unlocked,
+    host_god_mode_available,
+    host_god_mode_enabled,
+    host_set_god_mode_enabled,
+    host_noclip_command_available,
+    host_noclip_command_enabled,
+    host_set_noclip_command_enabled,
+    host_noclip_runtime_logging_enabled,
+    host_set_noclip_runtime_logging_enabled,
     host_request_reload
 };
 

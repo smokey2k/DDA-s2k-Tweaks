@@ -92,6 +92,54 @@ void render() {
         g_host->text_disabled(available
             ? "Running process only; the game EXE is not modified."
             : "Known console signature was not found.");
+
+        g_host->spacing();
+        g_host->separator();
+        bool god_mode = g_host->god_mode_enabled();
+        const bool god_available = g_host->god_mode_available();
+        g_host->begin_disabled(!god_available);
+        if (g_host->checkbox("God mode", &god_mode)) {
+            const bool success = g_host->set_god_mode_enabled(god_mode);
+            g_host->show_notification(
+                success ? (god_mode ? "GOD MODE ENABLED" : "GOD MODE DISABLED")
+                        : "GOD MODE TOGGLE FAILED",
+                success ? S2kNotificationKind::success : S2kNotificationKind::error);
+        }
+        g_host->end_disabled();
+        g_host->text_disabled(god_available
+            ? "Controls the validated g_permaGodMode CVAR."
+            : "The g_permaGodMode record was not uniquely identified.");
+
+        g_host->spacing();
+        bool noclip_command = g_host->noclip_command_enabled();
+        const bool noclip_available = g_host->noclip_command_available();
+        g_host->begin_disabled(!noclip_available);
+        if (g_host->checkbox("Enable Noclip command", &noclip_command)) {
+            const bool success = g_host->set_noclip_command_enabled(noclip_command);
+            g_host->show_notification(
+                success ? (noclip_command ? "NOCLIP COMMAND ENABLED" : "NOCLIP COMMAND RESTORED")
+                        : "NOCLIP COMMAND TOGGLE FAILED",
+                success ? S2kNotificationKind::success : S2kNotificationKind::error);
+        }
+        g_host->end_disabled();
+        g_host->text_disabled(noclip_available
+            ? "Allows the retail Noclip command in the current runtime context."
+            : "The retail Noclip runtime gate was not uniquely identified.");
+        g_host->end_menu();
+    }
+
+    if (g_host->begin_menu("Debug", true)) {
+        bool runtime_logging = g_host->noclip_runtime_logging_enabled();
+        if (g_host->checkbox("Log Noclip runtime context", &runtime_logging))
+            g_host->set_noclip_runtime_logging_enabled(runtime_logging);
+        g_host->text_disabled("Logs runtime type and module-relative vtable addresses.");
+        g_host->text_disabled("Useful when a new campaign or DLC uses a new runtime context.");
+        g_host->end_menu();
+    }
+
+    if (g_host->begin_menu("About", true)) {
+        g_host->text("Author: Daniel Ivanov Dechev");
+        g_host->text("Github: https://github.com/smokey2k/DDA-s2k-Tweaks");
         g_host->end_menu();
     }
 

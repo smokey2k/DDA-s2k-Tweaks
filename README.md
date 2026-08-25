@@ -19,10 +19,15 @@ For an existing clone, run `git submodule update --init --recursive` once.
 - Persistent addon settings saved to `s2k_Tweaks.ini`.
 - Keyboard movement remains available while the addon GUI is open; mouse input stays captured by the GUI.
 - Reversible, process-only console/CVAR unlock for the verified DDA executable.
+- Validated `g_permaGodMode` control and an adaptive, reversible retail Noclip hook.
+- Optional persistent Noclip runtime diagnostics for identifying new campaign or DLC contexts.
 - No Atlan Mod Loader or external executable required.
 
 The addon does not modify `DOOMTheDarkAges.exe` on disk. Unsupported executable
 versions and ambiguous console signatures are refused without patching memory.
+Enabling Noclip adapts the validated retail command for the known base-campaign and
+Revelations runtime contexts. The Debug menu can log runtime type and module-relative
+vtable information without enabling the adaptation.
 
 ## Build
 

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-inline constexpr std::uint32_t S2K_PLUGIN_ABI_VERSION = 3;
+inline constexpr std::uint32_t S2K_PLUGIN_ABI_VERSION = 5;
 
 enum class S2kNotificationKind : std::uint32_t { info, success, warning, error };
 
@@ -38,6 +38,14 @@ struct S2kHostApi {
     bool (*console_available)();
     bool (*console_unlocked)();
     bool (*set_console_unlocked)(bool enabled);
+    bool (*god_mode_available)();
+    bool (*god_mode_enabled)();
+    bool (*set_god_mode_enabled)(bool enabled);
+    bool (*noclip_command_available)();
+    bool (*noclip_command_enabled)();
+    bool (*set_noclip_command_enabled)(bool enabled);
+    bool (*noclip_runtime_logging_enabled)();
+    void (*set_noclip_runtime_logging_enabled)(bool enabled);
     void (*request_reload)();
 };
 

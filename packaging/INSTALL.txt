@@ -14,9 +14,13 @@ Usage:
   - Settings: use Preview notification to test the saved popup layout.
   - Tweaks: contains the Video and Physics sections for future options.
   - Cheats: restrict or unlock console/CVAR visibility.
+  - Cheats: toggle God mode through the validated g_permaGodMode record.
+  - Cheats: enable the validated adaptive retail Noclip command.
+  - Debug: optionally log Noclip runtime context data for new campaigns or DLCs.
+  - About: displays the author and project GitHub address.
   - Click the hotkey button, then press a new combination such as Alt+0.
   - Press Escape while capturing a hotkey to cancel.
-  - Hotkey, font size, and console state changes are saved automatically.
+  - Hotkey, font size, console, God mode, Noclip, and debug states are saved automatically.
   - Notification position and duration changes are saved automatically.
   - To update while DDA is running, replace s2k_Tweaks.dll, then choose
     Settings > Reload addon. XINPUT1_4.dll and the game do not need restarting.

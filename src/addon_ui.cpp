@@ -1,5 +1,6 @@
 #include "addon_ui.h"
 
+#include "cheat_state.h"
 #include "console_unlock.h"
 #include "log.h"
 #include "notification_state.h"
@@ -41,6 +42,9 @@ float g_notification_x_percent{50.0f};
 float g_notification_y_percent{12.0f};
 float g_notification_duration_seconds{3.5f};
 bool g_console_unlocked_preference{true};
+bool g_god_mode_preference{};
+bool g_noclip_command_preference{};
+bool g_noclip_runtime_logging_preference{};
 
 Hotkey current_hotkey() {
     std::scoped_lock lock(g_hotkey_mutex);
@@ -72,6 +76,9 @@ void save_config() {
     file << "notification_y_percent=" << g_notification_y_percent << '\n';
     file << "notification_duration_seconds=" << g_notification_duration_seconds << '\n';
     file << "console_unlocked=" << g_console_unlocked_preference << '\n';
+    file << "god_mode=" << g_god_mode_preference << '\n';
+    file << "noclip_command=" << g_noclip_command_preference << '\n';
+    file << "noclip_runtime_logging=" << g_noclip_runtime_logging_preference << '\n';
 }
 
 void load_config() {
@@ -107,6 +114,9 @@ void load_config() {
             catch (...) { dda::log("Invalid notification duration in config"); }
         }
         else if (key == "console_unlocked") g_console_unlocked_preference = value != 0;
+        else if (key == "god_mode") g_god_mode_preference = value != 0;
+        else if (key == "noclip_command") g_noclip_command_preference = value != 0;
+        else if (key == "noclip_runtime_logging") g_noclip_runtime_logging_preference = value != 0;
     }
     g_font_scale = std::clamp(g_font_scale, 0.75f, 2.50f);
     g_notification_x_percent = std::clamp(g_notification_x_percent, 0.0f, 100.0f);
@@ -224,6 +234,21 @@ bool addon_console_unlock_preference() {
     return g_console_unlocked_preference;
 }
 
+bool addon_god_mode_preference() {
+    load_addon_preferences();
+    return g_god_mode_preference;
+}
+
+bool addon_noclip_command_preference() {
+    load_addon_preferences();
+    return g_noclip_command_preference;
+}
+
+bool addon_noclip_runtime_logging_preference() {
+    load_addon_preferences();
+    return g_noclip_runtime_logging_preference;
+}
+
 std::string addon_hotkey_text() { return hotkey_text(); }
 bool addon_hotkey_capture_active() { return g_capture_hotkey.load(); }
 void begin_addon_hotkey_capture() { g_capture_hotkey = true; }
@@ -257,6 +282,26 @@ bool set_addon_console_unlocked(bool enabled) {
     g_console_unlocked_preference = enabled;
     save_config();
     return true;
+}
+
+bool set_addon_god_mode(bool enabled) {
+    if (!set_god_mode_enabled(enabled)) return false;
+    g_god_mode_preference = enabled;
+    save_config();
+    return true;
+}
+
+bool set_addon_noclip_command(bool enabled) {
+    if (!set_noclip_command_enabled(enabled)) return false;
+    g_noclip_command_preference = enabled;
+    save_config();
+    return true;
+}
+
+void set_addon_noclip_runtime_logging(bool enabled) {
+    set_noclip_runtime_logging_enabled(enabled);
+    g_noclip_runtime_logging_preference = noclip_runtime_logging_enabled();
+    save_config();
 }
 
 bool initialize_addon_ui(HWND window) {

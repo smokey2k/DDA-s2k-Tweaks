@@ -11,3 +11,4 @@ CMakeUserPresets.json
 *.user
 *.suo
 *.log
+info.txt
