@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source and dependencies
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -S . -B build -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Test XInput proxy
+        run: .\build\Release\xinput_smoke.exe .\build\Release\XINPUT1_4.dll
+
+      - name: Test reloadable plugin
+        run: .\build\Release\plugin_smoke.exe .\build\Release\s2k_Tweaks.dll
+
+      - name: Test notification queue
+        run: .\build\Release\notification_queue_smoke.exe

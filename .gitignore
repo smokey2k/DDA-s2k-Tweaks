@@ -1,5 +1,6 @@
 /build/
 /dist/
+/release/
 /analysis/
 /tools/
 /external/universalhookx/

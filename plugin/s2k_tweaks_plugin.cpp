@@ -2,6 +2,10 @@
 
 #include <Windows.h>
 
+#ifndef S2K_VERSION
+#define S2K_VERSION "dev"
+#endif
+
 namespace {
 const S2kHostApi* g_host{};
 
@@ -60,7 +64,7 @@ void render() {
         g_host->spacing();
         g_host->separator();
         g_host->text("Live update");
-        g_host->text_disabled("Loaded module: s2k_Tweaks v40");
+        g_host->text_disabled("Loaded module: s2k_Tweaks v" S2K_VERSION);
         if (g_host->button("Reload addon", 180.0f, 32.0f)) g_host->request_reload();
         g_host->text_disabled("Replace s2k_Tweaks.dll, then reload. The game can stay open.");
         g_host->end_menu();
@@ -99,7 +103,7 @@ void shutdown() { g_host = nullptr; }
 const S2kPluginApi g_api{
     S2K_PLUGIN_ABI_VERSION,
     "s2k_Tweaks",
-    "40",
+    S2K_VERSION,
     initialize,
     update,
     render,

@@ -1,4 +1,4 @@
-s2k_Tweaks v40 - Clean Baseline
+s2k_Tweaks - Vortex Package
 
 Installation:
   1. Remove or disable earlier s2k_Tweaks/DDA addon test versions.

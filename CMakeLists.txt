@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
-project(s2k_Tweaks LANGUAGES C CXX)
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" S2K_VERSION LIMIT_COUNT 1)
+project(s2k_Tweaks VERSION ${S2K_VERSION} LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -50,7 +51,11 @@ add_library(s2k_TweaksPlugin SHARED
     plugin/s2k_tweaks_plugin.cpp
 )
 target_include_directories(s2k_TweaksPlugin PRIVATE src)
-target_compile_definitions(s2k_TweaksPlugin PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+target_compile_definitions(s2k_TweaksPlugin PRIVATE
+    WIN32_LEAN_AND_MEAN
+    NOMINMAX
+    S2K_VERSION="${PROJECT_VERSION}"
+)
 set_target_properties(s2k_TweaksPlugin PROPERTIES OUTPUT_NAME s2k_Tweaks)
 
 if(MSVC)

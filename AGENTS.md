@@ -6,7 +6,7 @@ This repository is the native **s2k_Tweaks** addon for **DOOM: The Dark Ages**.
 It is an in-process Windows x64 addon with a Dear ImGui interface, Vulkan renderer,
 configurable GUI hotkey, and reversible console/CVAR unlock.
 
-The current hot-reload architecture baseline is `s2k_Tweaks-v40`.
+The current public release baseline is `s2k_Tweaks-v0.1.0`.
 
 ## Product goals
 
@@ -186,5 +186,7 @@ Before packaging:
 - Remove obsolete experiments from the active CMake target rather than leaving dormant code.
 - Use descriptive, version-independent log messages in source. Put release numbers only in
   packaging metadata and archive names.
+- Keep the semantic version in the root `VERSION` file. Release tags must match it with a
+  leading `v` (for example, `VERSION` `0.1.0` is released with tag `v0.1.0`).
 - Route user-facing state messages through the reusable host notification API. The core must
   copy message text and own its lifetime; plugins must not expose transient string pointers.

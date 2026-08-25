@@ -43,6 +43,22 @@ The reloadable module is `build/Release/s2k_Tweaks.dll`.
 ./build/Release/signature_file_smoke.exe <path-to-DOOMTheDarkAges.exe>
 ```
 
+## Automated releases
+
+The version has a single source of truth in [`VERSION`](VERSION). Pushes and pull
+requests to `main` are built and tested automatically. To publish a release, update
+`VERSION`, commit and push it, then create the matching tag:
+
+```powershell
+$version = Get-Content VERSION -Raw
+$version = $version.Trim()
+git tag "v$version"
+git push origin main "v$version"
+```
+
+The tag workflow builds and tests the project, then publishes a Vortex-ready ZIP and
+its SHA-256 checksum on the GitHub Releases page. A mismatched tag is rejected.
+
 ## License
 
 This project is available under the [MIT License](LICENSE). Third-party components
