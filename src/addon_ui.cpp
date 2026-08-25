@@ -176,6 +176,14 @@ void poll_hotkey_capture() {
     }
 }
 
+bool is_raw_keyboard_input(LPARAM lparam) {
+    RAWINPUTHEADER header{};
+    UINT size = sizeof(header);
+    return GetRawInputData(reinterpret_cast<HRAWINPUT>(lparam), RID_HEADER, &header, &size,
+               sizeof(RAWINPUTHEADER)) == sizeof(RAWINPUTHEADER) &&
+        header.dwType == RIM_TYPEKEYBOARD;
+}
+
 LRESULT CALLBACK hooked_wndproc(HWND window, UINT message, WPARAM wparam, LPARAM lparam) {
     const bool key_down = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
     const bool first_press = key_down && (lparam & (1LL << 30)) == 0;
@@ -193,10 +201,12 @@ LRESULT CALLBACK hooked_wndproc(HWND window, UINT message, WPARAM wparam, LPARAM
     if (g_menu_open.load()) {
         ImGui_ImplWin32_WndProcHandler(window, message, wparam, lparam);
         switch (message) {
-        case WM_KEYDOWN: case WM_KEYUP: case WM_SYSKEYDOWN: case WM_SYSKEYUP: case WM_CHAR:
         case WM_MOUSEMOVE: case WM_LBUTTONDOWN: case WM_LBUTTONUP: case WM_RBUTTONDOWN: case WM_RBUTTONUP:
-        case WM_MBUTTONDOWN: case WM_MBUTTONUP: case WM_MOUSEWHEEL: case WM_MOUSEHWHEEL: case WM_INPUT:
+        case WM_MBUTTONDOWN: case WM_MBUTTONUP: case WM_MOUSEWHEEL: case WM_MOUSEHWHEEL:
             return 0;
+        case WM_INPUT:
+            if (!is_raw_keyboard_input(lparam)) return 0;
+            break;
         default: break;
         }
     }
@@ -263,7 +273,9 @@ bool initialize_addon_ui(HWND window) {
         ImGui_ImplWin32_Shutdown();
         return false;
     }
-    log(std::format("Dear ImGui Win32 input initialized; GUI hotkey={}", hotkey_text()));
+    log(std::format(
+        "Dear ImGui Win32 input initialized; GUI hotkey={}, keyboard passthrough enabled",
+        hotkey_text()));
     return true;
 }
 

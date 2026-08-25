@@ -17,6 +17,7 @@ For an existing clone, run `git submodule update --init --recursive` once.
 - Dear ImGui Vulkan renderer and Win32 input backend.
 - Stable `XINPUT1_4.dll` core with a shadow-loaded, hot-reloadable `s2k_Tweaks.dll` UI module.
 - Persistent addon settings saved to `s2k_Tweaks.ini`.
+- Keyboard movement remains available while the addon GUI is open; mouse input stays captured by the GUI.
 - Reversible, process-only console/CVAR unlock for the verified DDA executable.
 - No Atlan Mod Loader or external executable required.
 
