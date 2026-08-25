@@ -1,0 +1,33 @@
+s2k_Tweaks v40 - Clean Baseline
+
+Installation:
+  1. Remove or disable earlier s2k_Tweaks/DDA addon test versions.
+  2. Install this archive with Vortex and deploy the mod.
+  3. Do not run DAMM for this DLL addon.
+  4. Start DOOM: The Dark Ages normally.
+
+Usage:
+  - Press F10 to show or hide the menu bar at the top of the screen.
+  - Settings: configure the interface hotkey.
+  - Settings: adjust the addon's font size from 0.75x to 2.50x.
+  - Settings: place notifications by X/Y screen percentage and set their duration.
+  - Settings: use Preview notification to test the saved popup layout.
+  - Tweaks: contains the Video and Physics sections for future options.
+  - Cheats: restrict or unlock console/CVAR visibility.
+  - Click the hotkey button, then press a new combination such as Alt+0.
+  - Press Escape while capturing a hotkey to cancel.
+  - Hotkey, font size, and console state changes are saved automatically.
+  - Notification position and duration changes are saved automatically.
+  - To update while DDA is running, replace s2k_Tweaks.dll, then choose
+    Settings > Reload addon. XINPUT1_4.dll and the game do not need restarting.
+
+Files created at runtime in the game directory:
+  s2k_Tweaks.log
+  s2k_Tweaks.ini
+
+Architecture:
+  XINPUT1_4.dll  Stable core; update requires restarting the game.
+  s2k_Tweaks.dll  Reloadable menus and tweak module.
+
+The console patch affects only the running process. DOOMTheDarkAges.exe is not
+modified on disk. Uninstall by disabling or removing this mod in Vortex.

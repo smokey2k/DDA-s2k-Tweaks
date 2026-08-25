@@ -1,0 +1,12 @@
+/build/
+/dist/
+/analysis/
+/tools/
+/external/universalhookx/
+/packaging/v*/
+.vs/
+.vscode/
+CMakeUserPresets.json
+*.user
+*.suo
+*.log
